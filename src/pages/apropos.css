@@ -1,0 +1,19 @@
+.apropos{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+.apropos img{
+    width: 30%;
+}
+.second{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 70px;
+}
+.second img{
+width: 30%;
+}
