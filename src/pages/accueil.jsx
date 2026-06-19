@@ -12,24 +12,38 @@ export const Accueil = () => {
     useEffect(() => {
 
   fetch("http://127.0.0.1:8000/api/contacts")
-    .then((res) => res.json())                      /*modifier*/
+    .then((res) => res.json())
     .then((data) => setContacts(data))
     .catch((error) => console.log(error));
-    
-console.log("Token Accueil :", keycloak.token)
-  console.log("Authentifié :", keycloak.authenticated)
+
+  console.log("Token Accueil :", keycloak.token);
+  console.log("Authentifié :", keycloak.authenticated);
+
   fetch("http://127.0.0.1:8000/api/profile", {
-    headers: {                                         /*keycloak*/
+    headers: {
       Authorization: `Bearer ${keycloak.token}`
     }
   })
     .then((res) => res.json())
     .then((data) => {
-  console.log("Profile complet :", JSON.stringify(data, null, 2))
-})
+      console.log("Profile complet :", JSON.stringify(data, null, 2));
+    })
+    .catch((error) => console.log(error));
+
+  // TEST ROUTE ADMIN
+  fetch("http://127.0.0.1:8000/api/admin", {
+    headers: {
+      Authorization: `Bearer ${keycloak.token}`
+    }
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("ADMIN :", data);
+    })
     .catch((error) => console.log(error));
 
 }, []);
+
   return (
     <div>
         <h1>Ma belle ville</h1>

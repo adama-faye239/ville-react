@@ -8,9 +8,10 @@ import logo from './assets/logo.png'
 import {Accueil} from './pages/accueil'
 import { Apropos } from './pages/Apropos'
 import { Contact } from './pages/contact'
-import { Services} from './pages/services'
+import { Demandes} from './pages/demandes'
 import {Connexion} from './pages/connexion'
 import {Inscription} from './pages/inscription'
+import {ListeDemandes} from './pages/ListeDemandes'
 import keycloak from './keycloak'
 
 
@@ -29,12 +30,16 @@ if (keycloak.authenticated) {             /** test temporaire pour keycloak */
           <Link to="/">Accueil</Link>
           </li>
           <li>
-            <Link to="/Apropos">A propos</Link>
+            {/* <Link to="/Apropos">A propos</Link> */}
           </li>
 
-          {/* <li>
-            <Link to="/services">Services</Link>
-          </li> */}
+          <li>
+            <Link to="/demandes">Demandes</Link>
+          </li>
+
+          <li>
+            <Link to="/ListeDemandes">ListDemandes</Link>
+          </li>
 
           <li>
             <Link to="/contact">Contact</Link>
@@ -68,12 +73,11 @@ if (keycloak.authenticated) {             /** test temporaire pour keycloak */
       <Routes>
         <Route path="/" element={<Accueil />} />
         <Route path="/Apropos" element={<Apropos />} />
-        <Route path="/services" element={<Services />} />
+        <Route path="/demandes" element={<Demandes />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/connexion" element={<Connexion />} />
         <Route path="/inscription" element={<Inscription />} />
-        
-
+        <Route path="/ListeDemandes" element={<ListeDemandes />} />
       </Routes>
     </div>
 
@@ -82,5 +86,16 @@ if (keycloak.authenticated) {             /** test temporaire pour keycloak */
 
   );
 }
+
+  // Redirection après connexion selon le rôle
+  if (keycloak.authenticated && keycloak.tokenParsed) {
+    const roles = keycloak.tokenParsed.realm_access?.roles || [];
+    if (roles.includes('admin')) {
+      // Rediriger l'admin vers ListeDemandes
+      if (window.location.pathname === '/' || window.location.pathname === '/connexion') {
+        window.location.href = '/ListeDemandes';
+      }
+    }
+  }
 
 
