@@ -20,6 +20,8 @@ export default function App() {
 if (keycloak.authenticated) {             /** test temporaire pour keycloak */
     console.log("Token :", keycloak.token)
   }
+   const roles = keycloak.tokenParsed?.realm_access?.roles || [];
+   const isAdmin = roles.includes("Admin");
   return (
 <div>
       <nav>
@@ -36,9 +38,11 @@ if (keycloak.authenticated) {             /** test temporaire pour keycloak */
           <li>
             <Link to="/demandes">Demandes</Link>
           </li>
+           <li>
 
-          <li>
-            <Link to="/ListeDemandes">ListDemandes</Link>
+          <Link to="/ListeDemandes">
+          {isAdmin ? "Liste des demandes" : "Mes demandes"}
+          </Link>
           </li>
 
           <li>
@@ -87,15 +91,6 @@ if (keycloak.authenticated) {             /** test temporaire pour keycloak */
   );
 }
 
-  // Redirection après connexion selon le rôle
-  if (keycloak.authenticated && keycloak.tokenParsed) {
-    const roles = keycloak.tokenParsed.realm_access?.roles || [];
-    if (roles.includes('admin')) {
-      // Rediriger l'admin vers ListeDemandes
-      if (window.location.pathname === '/' || window.location.pathname === '/connexion') {
-        window.location.href = '/ListeDemandes';
-      }
-    }
-  }
+  
 
 

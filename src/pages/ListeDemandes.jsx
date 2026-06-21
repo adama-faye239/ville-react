@@ -20,6 +20,9 @@ const [message, setMessage] = useState("");
 
 const [erreur, setErreur] = useState("");
 
+const roles = keycloak.tokenParsed?.realm_access?.roles || [];
+const isAdmin = roles.includes("Admin");
+
 useEffect(() => {
 
 if (!keycloak.authenticated) {
@@ -193,8 +196,13 @@ fetch("http://127.0.0.1:8000/api/demandes", {
         <h2>{erreur}</h2>
       )}
 
-      <h1>Liste des demandes</h1>
+      <h1>
+        {isAdmin ? "Liste des demandes" : "Mes demandes"}
+       </h1>
 
+       {demandes.length === 0 && (
+       <h3>Vous n'avez pas encore fait de demande.</h3>
+        )}
       {Array.isArray(demandes) &&
         demandes.map((demande) => (
 
